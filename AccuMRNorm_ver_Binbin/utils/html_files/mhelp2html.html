@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>mhelp2html</title>
+</head>
+<body>
+ MHELP2HTML - Dumps help discription as html file with minimum tags.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MHELP2HTML(DIRNAME,MODE) dumps all help discripton<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of matlab scripts in DIRNAME directory.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MHELP2HTML(SCRIPTNAME,MODE) dumps help discripton of SCRIPTNAME.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MODE can be '-update' or '-replace'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If MODE=='-update', then the program checks modified date between<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the script and corresponding html and will replace only when <br>
+&nbsp;&nbsp;&nbsp;&nbsp;date of scripts is newer than that of html.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Default is '-update'.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Note that html will be saved in script's subdirecoty, "html_files".<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXAMPLE :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mhelp2html('io');&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;% dumps all help discription in 'io' directory.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mhelp2html('sigload','-replace')&nbsp;&nbsp;% dumps 'sigload' help as html_files/sigload.html.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;VERSION :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.90 15.11.05 YM&nbsp;&nbsp;pre-release<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.91 17.11.05 YM&nbsp;&nbsp;supports '-update', 'replace' modes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.92 22.11.07 YM&nbsp;&nbsp;bug fix when what() returns a structure array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.93 10.12.07 YM&nbsp;&nbsp;renamed to mhelp2html to avoid collesion in Matlab 7.5.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;See also EXIST, WHAT, WHICH<br>
+<br>
+</body>
+</html>

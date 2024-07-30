@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>dg_read</title>
+</head>
+<body>
+ DG_READ - MEX utility to read the event (.dgz) file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DG = DG_READ(DGZFILE) will return recorded events in the dgzfile.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ESSxxx, the our task control program running on QNX will record events<br>
+&nbsp;&nbsp;&nbsp;&nbsp;as .evt and it is compiled and zipped as .dgz after the experiment.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;DG_READ read such .dgz and returns event data as a structure like following.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;dg = dg_read('//Win49/N/DataNeuro/A98.nm5/a98nm5_001.dgz');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dg = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_pre: {33x1 cell}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_names: [256x22 char]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_types: {[1062x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_subtypes: {[1062x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_times: {[1062x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_params: {{1062x1 cell}}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ems: {{3x1 cell}}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spk_types: {[0x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spk_channels: {[0x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spk_times: {[0x1 double]}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obs_times: 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename: '//Win49/N/DataNeuro/A98.nm5/a98nm5_001.dgz'<br>
+ <br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;TASK PARAMETERS :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.e_pre has control paramters set in ESSGUI.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EVENT NAMES :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.e_names are 256 event names.&nbsp;&nbsp;.e_types has recorded event numbers.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Note that event number starts from 0 to 255 and need to add +1 for matlab<br>
+&nbsp;&nbsp;&nbsp;&nbsp;indexing to get event name as string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;For an example, event 19 is deblank(dg.e_names(19+1,:)) = 'Start Obs Period'.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EVENT TYPES, SUBTYPES, PARAMETERS AND TIMINGS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.e_types/e_subtypes/e_times/e_params/ems/spk_... are cell arrays of data for each<br>
+&nbsp;&nbsp;&nbsp;&nbsp;observation periods. Combination of e_types/e_subtypes/e_times/e_params tells what kind<br>
+&nbsp;&nbsp;&nbsp;&nbsp;of events(subtype, event parameter) is recorded at which timing (e_times) in mseconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;For an example, in the first observation period and the first recored event, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dg.e_types{1}(1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 19;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;% event type as 'Start Obs Period'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dg.e_subtypes{1}(1) = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;% subtype as 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dg.e_params{1}{1}&nbsp;&nbsp;&nbsp;&nbsp;= [0 1];&nbsp;&nbsp;% event parameters, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dg_e_times{1}{1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;% relative timing in the obsp as 0 msec<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Note that meaning of e_params is dependent on the C code of ess system, and may differ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from program to program.<br>
+ <br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;See also ADF_INFO, ADF_READ<br>
+<br>
+</body>
+</html>

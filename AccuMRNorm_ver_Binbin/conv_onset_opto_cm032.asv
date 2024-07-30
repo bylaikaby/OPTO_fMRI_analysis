@@ -1,0 +1,83 @@
+%% convert onset time for opto cm032
+
+
+%% parameters
+
+etype = 29; % Example event type
+num_subtypes = 3; % Example total number of subtypes
+dataset_dir = "D:\CM032.Aw1";
+analysis_dir = 'D:\CM032_bids\sub-CM032\first_level_analysis';
+% define the run ids to get the onset times.
+
+% num_runs=[38:41,42:44,47:50,52,54,55,56,58];
+num_runs=[12,15,17,18,20,22:28,32,33];
+% define the subject prefix
+
+subject_id='cm32Aw1';
+
+% %% sf
+% baseDir = 'D:\\CM032_bids';
+% subjectID = 'sub-CM032';
+taskName = 'OPTO';
+% scans = {};
+% for iRun = 1:length(num_runs)  % Assuming 440 volumes per run
+%     scanFileName = sprintf('r%s_task-%s_run-%02d_EPI.nii', subjectID, taskName, iRun);
+%     scanPath = fullfile(baseDir, subjectID, 'func', scanFileName);
+%     scans{end+1}=scanPath;
+% end
+%% job 
+
+% Run this script from the directory that contains all of your subjects' data
+cd (dataset_dir)
+
+mkdir onset_times
+for ii= 1:length(num_runs)
+    run=num_runs(ii);
+    % Load .dgz file for the current run
+    dgz_file = [subject_id, '_', num2str(run,'%03d'), '.dgz'];
+%     dgz_file = 'cm32Aw1_012.dgz';
+    data = dg_read(dgz_file); % Load .dgz file
+    onset_times={};
+    % Iterate over event subtypes
+    for subtype = 1:num_subtypes
+        subtype_onset = selectdgevt(data, 1, etype, subtype-1);
+        subtype_onset = subtype_onset/1000;
+        onset_times{end+1} = subtype_onset;
+       
+    
+    end
+    opto_onsets= onset_times{2};
+    blank_onsets=vertcat(onset_times{1},onset_times{3});
+    blank_onsets = sort(blank_onsets);
+    blank_durations = [];
+    for i=1:length(blank_onsets)
+        if mod(i,2)==0
+            blank_durations(i)=14;
+        else
+            blank_durations(i)=2;
+        end
+    blank_durations = blank_durations';
+    end
+    % Save timing files into text files
+    save([ 'onset_times/',num2str(run,'%03d'),'_blank','_onset_times.txt'], 'blank_onsets', '-ASCII');
+    save([ 'onset_times/',num2str(run,'%03d'),'_blank','_durations.txt'], 'blank_durations', '-ASCII');
+    save([ 'onset_times/',num2str(run,'%03d'),'_opto_onset_times.txt'],"opto_onsets",'-ASCII');
+
+end
+
+
+% create 3-columnar time file
+blank_onsets=num2str(blank_onsets,'%.1f ');
+type='blank';
+blank_types=repmat('0',40,1);
+durations=num2str(blank_durations,'%.1f ');
+spaces=repmat(' ',40,1);
+three_blank=horzcat(blank_onsets,spaces,durations,spaces,blank_types);
+table_name=sprintf('onset_times/3_column_onset_%s_%s.txt',taskName,type);
+writematrix(three_blank,table_name);
+
+opto_onsets=
+three_opto=horzcat(opto_onsets,spaces,durations,spaces,blank_types);
+
+movefile('onset_times',analysis_dir)
+

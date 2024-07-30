@@ -1,0 +1,121 @@
+%% convert onset time for opto cm032
+
+% First define the data paths and analysis directory where the major GLM
+% takes place.
+% 
+% Followed by dgz_viewer to check the info necessary for the data extraction
+% 
+% Then it calls the extract_onset_times functions actuator.
+%% parameters
+
+
+dataset_dir = "D:\CM032.Aw1";
+analysis_dir = 'D:\CM032_bids\sub-CM032\first_level_analysis';
+
+% Ensure the analysis directory exists
+if ~exist(analysis_dir, 'dir')
+    mkdir(analysis_dir);
+end
+
+% define the run ids to get the onset times.
+num_runs=[12,15,17,18,20,22:28,32,33,38:41,47:50,42,43,44];
+
+% define the subject prefix
+% refer to the naming of the dgz files
+subject_id='cm32Aw1';
+
+
+dgz_file_sample_1 = fullfile(dataset_dir,sprintf('%s_%03d.dgz', subject_id, num_runs(1));
+dgz_file_sample_2 = sprintf('%s_%03d.dgz', subject_id, num_runs(end));
+dgzviewer(dgz_file_sample_1);
+dgzviewer(dgz_file_sample_2);
+
+etype = input('Enter event type (etype): ');
+num_subtypes = input('Enter the number of subtypes: ');
+
+
+etype = 29; % Example event type
+num_subtypes = 3; % Example total number of subtypes
+
+
+extract_onset_times (num_runs, subject_id, dataset_dir, analysis_dir, etype, num_subtypes);
+
+
+%% function
+
+function extract_onset_times(num_runs, subject_id, dataset_dir, analysis_dir, etype, num_subtypes)
+    % convert_onset_times Processes onset time data for given runs and subject.
+    %
+    % Inputs:
+    %   num_runs - Array specifying the run IDs.
+    %   subject_id - Identifier for the subject.
+    %   dataset_dir - Directory containing the dataset files.
+    %   analysis_dir - Directory where analysis results will be stored.
+    %   etype - Event type to be analyzed.
+    %   num_subtypes - Total number of subtypes to be processed.
+    %
+    % Output:
+    %   This function does not return any values. It saves onset time and duration
+    %   data into ASCII text files within the specified analysis directory
+    %   (onset_times)
+
+   
+
+    % Change working directory to dataset directory
+    cd(dataset_dir);
+    mkdir (fullfile(analysis_dir,'onset_times'));
+    
+    all_durations = {};
+
+    % Process each run
+    for ii = 1:length(num_runs)
+        run = num_runs(ii);
+        dgz_file = sprintf('%s_%03d.dgz', subject_id, run);
+        dgz_file = fullfile(dataset_dir,dgz_file);
+        data = dg_read(dgz_file); % Load .dgz file
+        onset_times = {};
+
+        % Process each event subtype
+        for subtype = 1:num_subtypes
+            subtype_onset = selectdgevt(data, 1, etype, subtype - 1) / 1000;
+            onset_times{end + 1} = subtype_onset;
+        end
+
+        % Extract and sort onset times
+        BLANK_pre_onsets = sort(onset_times{1});
+        BLANK_post_onsets = sort(onset_times{3});
+        STIM_onsets = onset_times{2};
+        all_onsets = cell2mat(onset_times);
+
+        % Compute durations
+        first_2_durations = diff(all_onsets, 1, 2);
+        third_durations = diff([onset_times{3}, onset_times{1}(2:end)], 1, 2);
+        durations = [first_2_durations, third_durations];
+
+        % Save data to files
+        save(sprintf('onset_times/%03d_BLANK_pre_onset_times.txt', run), 'BLANK_pre_onsets', '-ASCII');
+        save(sprintf('onset_times/%03d_BLANK_post_onset_times.txt', run), 'BLANK_post_onsets', '-ASCII');
+        save(sprintf('onset_times/%03d_STIM_onset_times.txt', run), 'STIM_onsets', '-ASCII');
+        save(sprintf('onset_times/%03d_all_onset_times.txt', run), 'all_onsets', '-ASCII');
+        save(sprintf('onset_times/%03d_all_durations.txt', run), 'durations', '-ASCII');
+    end
+    
+    all_durations = {end+1} = durations;
+    % Load and compare durations
+    tolerance = 0.1;
+    for i = 2:length(all_durations) % Start from the second file
+        % Compute absolute differences between current and first duration array
+        differences = abs(all_durations{1} - all_durations{i});
+        if any(differences(:) > tolerance)
+            fprintf('Warning: Durations in file %d exceed the tolerance of %0.1f seconds.\n', i, tolerance);
+        else
+            dsiplay("durations consistent across runs")
+        end
+    end
+
+
+    % Move onset times folder to the analysis directory
+    movefile('onset_times', analysis_dir);
+
+    % Change working directory back to the analysis directory
+end

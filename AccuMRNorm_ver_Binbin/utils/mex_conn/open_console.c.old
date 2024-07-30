@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <windows.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <io.h>
+#include <mex.h>
+//#include <winsock2.h>
+
+FILE *hf0,*hf1,*hf2;
+int initialized=0;
+static DWORD TerminalThreadID = -1;
+static DWORD Mode;
+HANDLE inHandle=NULL;
+
+static void TerminalThread(void)
+{
+  int inp;
+  char inpc;
+  INPUT_RECORD inbuf;
+  fd_set readfds;
+  fd_set writefds;
+  fd_set exceptfds;
+  struct timeval timeout;
+
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+  FD_ZERO(&exceptfds);
+  FD_SET(0,&readfds);
+  timeout.tv_sec = 30;
+  timeout.tv_usec = 100000;
+
+  GetConsoleMode(inHandle,&Mode);
+  SetConsoleMode(inHandle,Mode&(~ENABLE_LINE_INPUT)&(~ENABLE_ECHO_INPUT)&(~ENABLE_MOUSE_INPUT));
+  //if (initialized == 2) _exit(0);
+  for(;;) {
+    _sleep(100);
+    // select does not handle console i/o, only socket i/o
+    //if (select(0,&readfds,&writefds,&exceptfds,&timeout)) break;
+    // neither kbhit nor getch seem to be reentrant (i.e. use the allocated console correctly on consecutive calls)
+    //if(_kbhit()) {
+    //inpc=97;if(WriteConsoleInput(inHandle,&inpc,1,&inp)) fprintf(hf1,"noerr\n");
+    PeekConsoleInput(inHandle,&inbuf,1,&inp);
+    if (inp) {
+      if (inbuf.EventType == KEY_EVENT) {
+        //inp=_getch();
+        //if (_read(0,&inpc,1) > 0) { //linemode and echomode only
+        if (ReadConsoleInput(inHandle,&inbuf,1,&inp) && inbuf.Event.KeyEvent.bKeyDown) {
+          fprintf(hf1,"%c",(inpc=inbuf.Event.KeyEvent.uChar.AsciiChar));
+          // printf goes to the matlab console and , therefore, crashes, because the thread isn't attached to the console any more
+          // only the main mex function returns 'printf' correctly (after finishing the mex function)
+          // printf("%d\n",inp);
+        }
+      } else ReadConsoleInput(inHandle,&inbuf,1,&inp); // usually mouse if enabled, otherwise e.g. focus ...
+    }
+    if (inpc==100) break;
+  }
+  //close(0);close(1);close(2);
+  FreeConsole();
+  initialized=0;
+  ExitThread(0);
+}
+
+static HANDLE InitTerm(void)
+{
+  //extern void TerminalThread(void);
+  HANDLE hThread;
+
+  hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) TerminalThread,
+                         NULL, 0, &TerminalThreadID);
+
+  WaitForSingleObject(hThread, 10);
+  //CloseHandle(hThread); // don't close to enable console access from  matlab main
+  return hThread;
+}
+
+void SetupConsole()
+{
+  int hCrt;
+  //FILE *hf;
+  //static int initialized = 0;
+  DWORD rv;
+
+  rv = GetLastError();
+
+  if(initialized == 1){
+        fprintf(hf2,"Setup console only needs to be called once\n");
+        return;
+  }
+
+  close(0);close(1);close(2);
+  if (!AllocConsole()) return;
+
+  inHandle = GetStdHandle(STD_INPUT_HANDLE);
+  hCrt = _open_osfhandle( (long) inHandle, _O_TEXT );
+  printf("hier0:%d\n",hCrt);
+  hf0 = _fdopen(hCrt, "r");
+  if (hf0) {
+    setvbuf(hf0, NULL, _IONBF, 0);
+  }
+
+  // Setup stdout
+  hCrt = _open_osfhandle( (long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT );
+  hf1 = _fdopen(hCrt, "w");
+  if (hf1) {
+    setvbuf(hf1, NULL, _IONBF, 0);
+    //memcpy(stdout,hf1,sizeof(FILE)); // useless since 'printf' doesn't print to stdout!!
+  }
+
+  // Setup stderr
+  hCrt = _open_osfhandle( (long)GetStdHandle(STD_ERROR_HANDLE), _O_TEXT );
+  hf2 = _fdopen(hCrt, "w");
+  if (hf2) {
+    setvbuf(hf2, NULL, _IONBF, 0);
+    //memcpy(stderr,hf2,sizeof(FILE));
+  }
+
+  initialized = 1;
+}
+
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+  int i;
+  if (nrhs != 2) {
+  mexErrMsgTxt("usage: [fid_0,fid_1,fid_2,fid_3] = open_qnx (use_newconsole[0,1] debug[0,1])");
+  }
+  if (mxGetScalar(prhs[0]) == 1.) {
+    if (initialized) mexErrMsgTxt("Setup console only needs to be called once\n");
+    SetupConsole();
+    //if(mxGetScalar(prhs[1]) == 1.) initialized=2;
+    InitTerm();
+    printf("fids: %d,%d,%d,%d\n",hf0,hf1,hf2,inHandle);
+    plhs[0] = mxCreateDoubleMatrix(1,1, mxREAL); i=hf0; *(mxGetPr(plhs[0])) = i;
+    plhs[1] = mxCreateDoubleMatrix(1,1, mxREAL); i=hf1; *(mxGetPr(plhs[1])) = i;
+    plhs[2] = mxCreateDoubleMatrix(1,1, mxREAL); i=hf2; *(mxGetPr(plhs[2])) = i;
+    plhs[3] = mxCreateDoubleMatrix(1,1, mxREAL); i=inHandle; *(mxGetPr(plhs[3])) = i;
+  }
+}

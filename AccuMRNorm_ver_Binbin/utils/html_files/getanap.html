@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>getanap</title>
+</head>
+<body>
+ GETANAP - Returns default analysis parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ANAP = GETANAP(SESSION,ExpNo/GrpName) returns analysis paramaters <br>
+&nbsp;&nbsp;&nbsp;&nbsp;for the given ExpNo/GrpName, overwritin defalut values by ANAP and <br>
+&nbsp;&nbsp;&nbsp;&nbsp;GRP.xxx.anap of the session file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SESSION/GrpName can be a structure returned by GOTO/GETGRP function.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ANAP = GETANAP(SESSION) returns analys parameters for the given<br>
+&nbsp;&nbsp;&nbsp;&nbsp;session, overwriting default values by ANAP only, no GRP.xxxx.anap.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;ANAP = GETANAP('default') returns default values.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;NOTE :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The session description file can have analysis parameters as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANAP, GRPP.anap and/or GRP.xxx.anap.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If session is given to this function, then default parameters will be overwritten by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANAP.&nbsp;&nbsp;If ExpNo or GrpName is given, then values will be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;again overwritten by GRP.xxx.anap.<br>
+ <br>
+&nbsp;&nbsp;PRIORITY : GRP.xxx.anap > ANAP > anap<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the highest is 'GRP.xxx.anap' in the session file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the next one is 'ANAP' in the session file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the lowest is 'anap' below in this file.<br>
+ <br>
+&nbsp;&nbsp;VERSION :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.90 24.01.04 YM&nbsp;&nbsp;derived from utils/getses.m.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.91 21.12.05 YM&nbsp;&nbsp;bug fix, clean up.<br>
+ <br>
+&nbsp;&nbsp;See also GETSES GETBANDSFLT GETLFPMUA<br>
+<br>
+</body>
+</html>

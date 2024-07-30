@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>getStimIndices</title>
+</head>
+<body>
+ GETSTIMINDICES - Gets time indices of specified object/period.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IND = GETSTIMINDICES(SIG,OBJTYPE) returns time indices of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OBJTYPE.&nbsp;&nbsp;If SIG is tcImg/roiTs, HEMODELAY=2s and HEMOTAIL=5s as default.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IND = GETSTIMINDICES(SIG,OBJTYPE,HEMODELAY,HEMOTAIL) returns time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indices of OBJTYPE, taking into account of delay by HEMODELAY (sec)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and a tail of sigal as HEMOTAIL (sec).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IND includes all periods of OBJTYPE if OBJTYPE appears multiple times<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in the stimulus sequence.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IND = GETSTIMINDICES(SIG,STIMID)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IND = GETSTIMINDICES(SIG,STIMID,HEMODELAY,HEMOTAIL) use the stimulus ID instead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of object's name.&nbsp;&nbsp;STIMID can range from 0 to NumStimObjs-1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See Sig.stm field for detail.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As OBJTYPE, GETSTIMINDICES accepts '-1','blank', 'anystim',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'prestim' and stimulus types in stm.stmtypes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If OBJTYPE is 'prestim', the experiment is exptected to start<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with a 'blank' period or describe stimulus IDs of 'prestim' as grp.prestim.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If OBJTYPE is '-1', a period before the first stimulus will be returned.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This '-1' may be useful when signal sorted by stimulus is given.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SEEALSO : STMFILE of each experiments<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VERSION :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.90&nbsp;&nbsp;21.10.03&nbsp;&nbsp;YM<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.91&nbsp;&nbsp;03.11.03&nbsp;&nbsp;YM&nbsp;&nbsp;supports 'prestm' assuming blank-stim...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.92&nbsp;&nbsp;13.04.04&nbsp;&nbsp;YM&nbsp;&nbsp;use expgetpar().<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.93&nbsp;&nbsp;07.07.04&nbsp;&nbsp;YM&nbsp;&nbsp;also accepts STIMID as the second argument.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.94&nbsp;&nbsp;13.07.04&nbsp;&nbsp;YM&nbsp;&nbsp;bug fix when numstim == 1.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.95&nbsp;&nbsp;21.07.04&nbsp;&nbsp;YM&nbsp;&nbsp;use "grp.prestim" for prestim period.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.96&nbsp;&nbsp;23.07.04&nbsp;&nbsp;YM&nbsp;&nbsp;supports HemoTail also.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.97&nbsp;&nbsp;17.01.05&nbsp;&nbsp;YM&nbsp;&nbsp;avoid error for D98.at1/at2.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.98&nbsp;&nbsp;10.03.05&nbsp;&nbsp;YM&nbsp;&nbsp;potential bug fix.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.99&nbsp;&nbsp;26.01.05&nbsp;&nbsp;YM&nbsp;&nbsp;check prestim.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.00&nbsp;&nbsp;06.03.06&nbsp;&nbsp;YM&nbsp;&nbsp;supports negative stimid (stm.v) of old session (d01nm4).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.01&nbsp;&nbsp;24.03.06&nbsp;&nbsp;YM&nbsp;&nbsp;supports Sig as a cell array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.02&nbsp;&nbsp;13.03.07&nbsp;&nbsp;YM&nbsp;&nbsp;supports 'awakeprestim'.<br>
+ <br>
+&nbsp;&nbsp;See also GETBASELINE, EXPGETPAR, STM_READ, EXPGETSTM<br>
+<br>
+</body>
+</html>

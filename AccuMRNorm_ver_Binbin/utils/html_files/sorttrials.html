@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>sorttrials</title>
+</head>
+<body>
+ SORTTRIALS - sort randomly presented trials<br>
+&nbsp;&nbsp;SORTTRIALS uses Sig.stm.t/dt information to detect trial onset<br>
+&nbsp;&nbsp;and sort all trials according to conditions. It is used to<br>
+&nbsp;&nbsp;compute stimulus-related PSDs, integrals, etc. The integrals can<br>
+&nbsp;&nbsp;be then used to asses site-selectivity.<br>
+ <br>
+&nbsp;&nbsp;LfpM = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1x1 struct]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1x1 struct]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1x1 struct]&nbsp;&nbsp;<br>
+ <br>
+&nbsp;&nbsp;LfpM{1} = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session: 'b01nm4'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grpname: 'pwcont'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExpNo: [71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dir: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dsp: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grp: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usr: {}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evt: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stm: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chan: [1 3 4 5 6 16 8 9 10 11 12 13 14 15]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dat: [96x14x20 double]		% Time X Chan X Obsp<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dx: 0.2500<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cond: [1x1 struct]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;range: [31 100]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tosdu: [1x1 struct]<br>
+ 	&nbsp;&nbsp;<br>
+&nbsp;&nbsp;lfp = sorttrials(LfpM);<br>
+&nbsp;&nbsp;lfp.dat = [12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6]<br>
+ 		Time X Chan X Obsp X Conditions X Epoch<br>
+&nbsp;&nbsp;e.g. for contrast:<br>
+ 		Time X Chan X Obsp X [0 1 3 4 | 2 1 0 3 ...] [1 0.5 0.25 ...]<br>
+ <br>
+&nbsp;&nbsp;To obtain the time series corresponding to an epoch for all<br>
+&nbsp;&nbsp;observation periods and all conditions use<br>
+&nbsp;&nbsp;getepoch(sorttrials(Sig)), which actually returns the reshaped<br>
+&nbsp;&nbsp;array in the form: [Time X Chan X Epoch X Trials].<br>
+ <br>
+&nbsp;&nbsp;NKL 11.05.03<br>
+<br>
+</body>
+</html>

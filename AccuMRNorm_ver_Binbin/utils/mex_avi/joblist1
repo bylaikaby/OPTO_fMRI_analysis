@@ -1,0 +1,51 @@
+// VirtualDub job list (Sylia script format)
+// This is a program generated file -- edit at your own risk.
+//
+// $signature 0 1
+// $numjobs 1
+//
+
+// $job "Job 1"
+// $input "T:\Mri\MriStim\stimuli\movies\afr_0003.avi"
+// $output "L:\matlab\mex_avi\afr_0003.avi"
+// $state 0
+// $id f5fdc98e24706009
+// $start_time 00000000 00000000
+// $end_time 00000000 00000000
+// $script
+
+VirtualDub.Log(" trying to convert movie file to standard avi format");
+VirtualDub.Log(" check output file 'tmp/<xxx>.avi' in current folder");
+VirtualDub.Log("");
+// VirtualDub.Open("T:\\Mri\\MriStim\\stimuli\\movies\\afr_0003.avi","",0);
+VirtualDub.Open(VirtualDub.params[0],"",0);
+VirtualDub.audio.SetSource(1);
+VirtualDub.audio.SetMode(0);
+VirtualDub.audio.SetInterleave(1,500,1,0,0);
+VirtualDub.audio.SetClipMode(1,1);
+VirtualDub.audio.SetConversion(0,0,0,0,0);
+VirtualDub.audio.SetVolume();
+VirtualDub.audio.SetCompression();
+VirtualDub.audio.EnableFilterGraph(0);
+VirtualDub.video.SetInputFormat(0);
+VirtualDub.video.SetOutputFormat(7);
+VirtualDub.video.SetMode(3);
+VirtualDub.video.SetSmartRendering(0);
+VirtualDub.video.SetPreserveEmptyFrames(0);
+VirtualDub.video.SetFrameRate2(0,0,1);
+VirtualDub.video.SetIVTC(0, 0, 0, 0);
+VirtualDub.video.SetCompression();
+VirtualDub.video.filters.Clear();
+VirtualDub.audio.filters.Clear();
+VirtualDub.subset.Delete();
+VirtualDub.project.ClearTextInfo();
+  // -- $reloadstop --
+// VirtualDub.SaveAVI("L:\\matlab\\mex_avi\\afr_0003.avi");
+VirtualDub.SaveAVI(VirtualDub.params[1]);
+VirtualDub.audio.SetSource(1);
+VirtualDub.Close();
+
+// $endjob
+//
+//--------------------------------------------------
+// $done

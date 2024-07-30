@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>sigresample</title>
+</head>
+<body>
+ SIGRESAMPLE - resamples the signal.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oSig = sigresample(Sig,NEWDX,...) resamples the signal with NEWDX.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The program assumes the 1st dimension as time series.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;EXAMPLE :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>> oSig = sigresample(Sig,Sig.dx/2,'USE_FIR',0,'SAVE_MEMORY',1);<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;NOTE :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sig.dat must be (t,...)<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;OPTIONAL SETTINGS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVE_MEMORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: do resamping one by one to save memory (default=0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIRROR_EDGES&nbsp;&nbsp;&nbsp;&nbsp;: minimize unstable periods in both time edges (default=1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USE_FIR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: flag to use FIR filter for resampling (default=0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIR_passripple : FIR filter: passripple&nbsp;&nbsp;(default=0.1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIR_dB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: FIR filter: dB (default=60)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIR_transband&nbsp;&nbsp;: FIR filter: transband in Hz (default=(1/NEWDX)*0.008)<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;VERSION :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.90 29.11.07 YM&nbsp;&nbsp;pre-release<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;See also resample siginterp1 siggetblp<br>
+<br>
+</body>
+</html>

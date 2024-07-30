@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>xform</title>
+</head>
+<body>
+<br>
+ Gateway routine for volume coordinate transforms<br>
+<br>
+<br>
+<br>
+&nbsp;&nbsp;handles = dtiAdjustDtiXform(handles, refPointName, newCoords, [oldCoords])<br>
+ Anatomical normalization<br>
+ combine left and right<br>
+ [newImg, MSE, absDeform, deformField] = dtiDeformation(srcImg,trgtImg,maxIter,interpType,deformationFN,smoothLevel) <br>
+ [deformedBrain] = dtiDeformationFast(srcFile,tempFile,destinationDir)<br>
+ [deformField, newImg, absDeform, MSE] = dtiDeformationScalar(srcImg, trgImg, maxIter, smoothLevel) <br>
+ function [outDt6,outb0] = dtiDeformer(inputImgFN,deformFieldFN,dfType,outputImgFN)<br>
+ [] = dtiDeformGroup(templateIn,controlAveOut,dyslexicAveOut)<br>
+ [] = dtiDeformGroupFast(templateIn,subjectDirectory,fileFragment,destinationDir)<br>
+ R = dtiXformTensorsPPD2(img,V)<br>
+ img_new = dtiResliceAnalyzeSn3d(img, sn3dParams, [nonLinearFlag], [mmPerVoxOut])<br>
+ dt6_new = dtiResliceTensor(dt6, sn3dParams, [nonLinearFlag], [mmPerVoxOut], [xformToTensor], [rotTensorMethod])<br>
+<br>
+<br>
+<br>
+ dt6 = dtiTalNormalize(dt6file,destinationDir)<br>
+<br>
+ combine left and right<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ dt6_new = dtiXformTensors(dt6, xform)<br>
+ outDt6 = dtiXformTensorsPPD(inDt6,F,invDef)<br>
+<br>
+<br>
+ vec_new = dtiXformVectors(vec, xform, prePost)<br>
+<br>
+<br>
+xform is both a directory and a function.<br>
+<br>
+ XFORM - converts Sig's unit accoring to 'Method' and 'Epoch'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIG = XFORM(SIG,METHOD,EPOCH) converts the signal's unit to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;METHOD.&nbsp;&nbsp;As METHOD, 'tosdu', 'percent', 'frac', 'detrend',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'collage' and 'zerobase' is supported.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XFORM use EPOCH variable as baseline period(s).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As EPOCH, '-1', 'blank', 'prestim', 'anystim' and stimulus type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in stm.stmtypes are available.&nbsp;&nbsp;See GETSTIMINDICES for detail.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If EPOCH is 'prestim', of course, the experiment should start<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with a 'blank' period.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To take in account of hemodynamic delay and tail for EPOCH, use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIG = XFORM(SIG,METHOD,EPOCH,HEMODELAY,HEMOTAIL).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As default, HEMODELAY=2sec, HEMOTAIL=5sec if SIG.dir.dname is <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roiTs/troiTs/tcImg, otherwise HEMODELAY=0, HEMOTAIL=0.<br>
+ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;SIG = XFORM(SIG,METHOD) converts the signal's units, setting<br>
+&nbsp;&nbsp;&nbsp;&nbsp;EPOCH as 'prestim'.<br>
+ <br>
+ <br>
+ <br>
+&nbsp;&nbsp;EXAMPLE : tcImg = xform(tcImg,'percent','blank');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: tcImg = xform(tcImg,'tosdu','prestim');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcImg = xform(tcImg,'collage');<br>
+&nbsp;&nbsp;NOTES&nbsp;&nbsp;&nbsp;&nbsp;:<br>
+&nbsp;&nbsp;VERSION : 0.90 13.04.04 YM&nbsp;&nbsp;first release<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.91 11.05.04 YM&nbsp;&nbsp;supports 'collage'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.92 21.07.04 YM&nbsp;&nbsp;supports 'zerobase'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.93 27.07.04 YM&nbsp;&nbsp;supports HEMODELAY and HEMOTAIL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.94 24.03.06 YM&nbsp;&nbsp;supports a cell array, "allprestim".<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.95 26.03.07 YM&nbsp;&nbsp;make sure 'prestim' compted by each vox/trial<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.96 28.03.07 YM&nbsp;&nbsp;avoid zero division<br>
+ <br>
+&nbsp;&nbsp;See also GETBASELINE, GETSTIMINDICES, TOSDU, MTCIMG2COLLAGE<br>
+<br>
+</body>
+</html>

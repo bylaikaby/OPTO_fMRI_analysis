@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>sigfftfilt</title>
+</head>
+<body>
+ SIGFFTFILT - Filtering by FFT provides no phase lag and sharpest<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frequency response.<br>
+&nbsp;&nbsp;PURPOSE : To filter the signal by FFT.<br>
+&nbsp;&nbsp;USAGE&nbsp;&nbsp;&nbsp;&nbsp;: Sig = sigfftfilt(Sig,Flim,Ftype)<br>
+&nbsp;&nbsp;ARGS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Flim&nbsp;&nbsp;: frequency limit(s) in Hz.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ftype : filter type either 'low','high' or 'band'.<br>
+&nbsp;&nbsp;EXAMPLE : roiTs{1} = sigfftfilt(roiTs{1},0.125,'high')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roiTs{1} = sigfftfilt(roiTs{1},[0.125 1],'band');<br>
+&nbsp;&nbsp;NOTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Sig.dat should be a matrix of (t,n), the first column as time.<br>
+&nbsp;&nbsp;VERSION : 07.04.04 YM&nbsp;&nbsp;&nbsp;&nbsp;first release<br>
+ <br>
+&nbsp;&nbsp;See also FFT IFFT<br>
+<br>
+</body>
+</html>

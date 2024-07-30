@@ -1,0 +1,57 @@
+73:               for (i = 0; i < npts; i++) {
+004011DA   mov         dword ptr [ebp-20h],0
+004011E1   jmp         main+0ACh (004011ec)
+004011E3   mov         eax,dword ptr [ebp-20h]
+004011E6   add         eax,1
+004011E9   mov         dword ptr [ebp-20h],eax
+004011EC   mov         eax,dword ptr [ebp-20h]
+004011EF   cmp         eax,dword ptr [ebp-28h]
+004011F2   jge         main+0D8h (00401218)
+74:                   imgmean[i] = imgmean[i] + (float)imgraw[i];
+004011F4   mov         eax,dword ptr [ebp-0Ch]
+004011F7   add         eax,dword ptr [ebp-20h]
+004011FA   xor         ecx,ecx
+004011FC   mov         cl,byte ptr [eax]
+004011FE   mov         dword ptr [ebp-70h],ecx
+00401201   fild        dword ptr [ebp-70h]
+00401204   mov         edx,dword ptr [ebp-20h]
+00401207   mov         eax,dword ptr [ebp-10h]
+0040120A   fadd        dword ptr [eax+edx*4]
+0040120D   mov         ecx,dword ptr [ebp-20h]
+00401210   mov         edx,dword ptr [ebp-10h]
+00401213   fstp        dword ptr [edx+ecx*4]
+75:               }
+00401216   jmp         main+0A3h (004011e3)
+76:               for (i = 0; i < npts; i++) {
+00401218   mov         dword ptr [ebp-20h],0
+0040121F   jmp         main+0EAh (0040122a)
+00401221   mov         eax,dword ptr [ebp-20h]
+00401224   add         eax,1
+00401227   mov         dword ptr [ebp-20h],eax
+0040122A   mov         eax,dword ptr [ebp-20h]
+0040122D   cmp         eax,dword ptr [ebp-28h]
+00401230   jge         main+126h (00401266)
+77:                   imgstd[i] = imgstd[i] + (float)imgraw[i]*(float)imgraw[i];
+00401232   mov         eax,dword ptr [ebp-0Ch]
+00401235   add         eax,dword ptr [ebp-20h]
+00401238   xor         ecx,ecx
+0040123A   mov         cl,byte ptr [eax]
+0040123C   mov         dword ptr [ebp-70h],ecx
+0040123F   fild        dword ptr [ebp-70h]
+00401242   mov         edx,dword ptr [ebp-0Ch]
+00401245   add         edx,dword ptr [ebp-20h]
+00401248   xor         eax,eax
+0040124A   mov         al,byte ptr [edx]
+0040124C   mov         dword ptr [ebp-74h],eax
+0040124F   fimul       dword ptr [ebp-74h]
+00401252   mov         ecx,dword ptr [ebp-20h]
+00401255   mov         edx,dword ptr [ebp-14h]
+00401258   fadd        dword ptr [edx+ecx*4]
+0040125B   mov         eax,dword ptr [ebp-20h]
+0040125E   mov         ecx,dword ptr [ebp-14h]
+00401261   fstp        dword ptr [ecx+eax*4]
+78:               }
+00401264   jmp         main+0E1h (00401221)
+79:           }
+00401266   jmp         main+85h (004011c5)
+80:       }

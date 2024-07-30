@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>grpmake</title>
+</head>
+<body>
+ GRPMAKE - Group signals defined in "SigName" in group GrpName<br>
+&nbsp;&nbsp;GRPMAKE is used to group similar experiments into "group" files. The names of the groups<br>
+&nbsp;&nbsp;are defined in the description file, and are fields of the Ses.grp structure. Each file<br>
+&nbsp;&nbsp;contains many different signals, only some of which are grouped by default. The user can<br>
+&nbsp;&nbsp;of course group any signal by setting SigName.<br>
+ <br>
+&nbsp;&nbsp;Defaults "to be grouped" signals are:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ses.ctg.GrpPhySigs = {'Gamma';'LfpM';'LfpH';'Mua';'Sdf'}; -- Physiology<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ses.ctg.GrpImgSigs = {'roiTs'};&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- MRI<br>
+ <br>
+&nbsp;&nbsp;NOTES :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;From 11.10.05, "grpmake" can automatically try to find a grouping program.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It should be in utils/grpsig direcory and named like "grp_SIGNAME.m".<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"catsig.m" can be used still for compatibility.<br>
+ <br>
+&nbsp;&nbsp;NKL, 28.04.03<br>
+&nbsp;&nbsp;YM,&nbsp;&nbsp;11.07.04 supports signals of dependency analysis.<br>
+&nbsp;&nbsp;YM,&nbsp;&nbsp;11.10.05 use grouping funcitons in utils/grpsig if available.<br>
+&nbsp;&nbsp;YM,&nbsp;&nbsp;09.02.06 runs sesgetmask if needed.<br>
+&nbsp;&nbsp;YM,&nbsp;&nbsp;07.10.06 use catsig_awake.m for awake MRI.<br>
+ <br>
+&nbsp;&nbsp;See also SESGRPMAKE, CATSIG, SESSUPGRP<br>
+<br>
+</body>
+</html>

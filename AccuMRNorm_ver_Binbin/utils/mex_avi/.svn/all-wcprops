@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi
+END
+ncpolar20x20.raw
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/ncpolar20x20.raw
+END
+run_wnoise.m
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/run_wnoise.m
+END
+vavi_mean.asm
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.asm
+END
+mexavi.m
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/mexavi.m
+END
+vmk_whitenoise.m
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vmk_whitenoise.m
+END
+vavi_mean.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.c
+END
+contents.m
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/contents.m
+END
+ncpolar24x24.raw
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/ncpolar24x24.raw
+END
+vavi_info.dll
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_info.dll
+END
+testasm.txt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/testasm.txt
+END
+vavi_mean.m
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.m
+END
+mk_whitenoise.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/mk_whitenoise.m
+END
+vavigetmean.m
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavigetmean.m
+END
+polar32x32.raw
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/polar32x32.raw
+END
+vavi_mean.keep.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.keep.c
+END
+testmean.m
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/testmean.m
+END
+testsig.m
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/testsig.m
+END
+vavi_mean.dll
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.dll
+END
+vavi_read.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_read.c
+END
+vavi_mean.orig.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.orig.c
+END
+vavi_mean.030907.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.030907.c
+END
+vavi_mean.030925.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_mean.030925.c
+END
+ncpolar32x32.raw
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/ncpolar32x32.raw
+END
+vavi_read.m
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_read.m
+END
+ncpolar16x16.raw
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/ncpolar16x16.raw
+END
+vavifunc.asm
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavifunc.asm
+END
+vavi_info.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_info.c
+END
+vavifunc.c
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavifunc.c
+END
+amd3dx.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/amd3dx.h
+END
+vavifunc.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavifunc.h
+END
+vavi_read.dll
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_read.dll
+END
+vavi_info.m
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/agbs/!svn/ver/2383/projects/miForBands/MatLab/utils/mex_avi/vavi_info.m
+END

@@ -27,22 +27,19 @@
 
 clear all
 
-
-orig_dataset2convert = 'D:\OPTO_fMRI_CM032&33\Raw_data\CM032.Aw1';
+root_directory = 'D:\OPTO_fMRI_CM\';
+orig_dataset2convert = 'D:\OPTO_fMRI_CM\Raw_data\CM032.Aw1';
 [data_dir,orig_dataset_name,ext] = fileparts(orig_dataset2convert);
 bids_name = [orig_dataset_name,'_','BIDS'];
+bids_directory = [root_directory,'/BIDS_data'];
 
-
-working_directory = fullfile (data_dir,bids_name);
-
-subject_name = 'sub-CM032';
-subject_folder = fullfile(working_directory,subject_name); 
-AccuMRNorm_Dir = 'D:\AccuMRnorm_binbin\AccuMRNorm_ver_Binbin';
+subject_name = ['sub-',orig_dataset_name];
+AccuMRNorm_Dir = 'D:\OPTO_fMRI_CM\code';
 
 % automatic add_path to include the dependent toolboxes
 addpath(genpath(AccuMRNorm_Dir));
 
-temp_Dir = 'D:\OPTO_fMRI_CM032&33\Templates\NMT_v2.0'; % Folder of the template
+temp_Dir = 'D:\OPTO_fMRI_CM\Templates\NMT_v2.0'; % Folder of the template
 temp = 'NMT_v2.0_sym_SS'; % Default template file name
 
 % % Adding additional dependencies
@@ -68,21 +65,22 @@ system (bids_help_cmd)
 bids_convert_cmd = ['wsl /home/bb/miniconda3/envs/unet/bin/brkraw bids_convert ',[orig_dataset_name,ext,' ',orig_dataset_name,'.xlsx -j ',orig_dataset_name,' -o ../BIDS_data/',bids_name]] ;
 
 system (bids_convert_cmd)
-cd ../BIDS_data
+cd (bids_directory);
 % decompress the converted dataset to allow processing with SPM.
 system(['wsl gunzip -r ',bids_name])
 
 
 %% Directory and Filename Parsing
-cd (bids_name);
-working_directory = pwd;
+
+cd (fullfile (bids_directory,bids_name));
+subject_directory = pwd;
 
 % save all the path and name information to a structure 'par'.
 
-par = parget(subject_name,working_directory,AccuMRNorm_Dir,temp_Dir,temp);
+par = parget(subject_name,subject_directory,AccuMRNorm_Dir,temp_Dir,temp);
 
 
-
+ 
 % save 'par' for ease of reloading
 
 
@@ -101,12 +99,13 @@ for i = 1:length(anas)
  setNiiOrientation (ana);
 %  flip_lr(ana,ana)
 end
-cd(working_directory)
-%% Quality Check 1
+%% Quality Check #1, pre-normalisation
 
 % Inspection of the dimensions of the EPIs.
 
-inspectEPIInformation (par);
+par = inspect_scansinfo (par);
+
+% Inspection of alignment between ANA, EPI (samples) and TEMP (NMT)
 qcDisplay(par,4);
 
 
@@ -120,38 +119,44 @@ qcDisplay(par,4);
 run_bet4animal_macaque('/home/bb/fsl',par.ana,par.pathana,0.2);
 
 
-%% Potential DEFT module
-% % use deft for MREG2D_GUI
-% par.pathdeft = fullfile(par.work_dir,'etc');
-% cd (par.pathdeft)
-% par.deft = uigetfile({ '*.nii'}, 'Select Aid_Anatomical File', par.pathdeft);
-% par.deft = fullfile(par.pathdeft,par.deft)
-% cd (working_directory)
-% 
-% run_bet4animal_macaque('/home/bb/fsl',par.deft,par.pathdeft,0.2);
-% 
-% 
-% if isfield(par, 'deft')
-%     setNiiOrientation (par.deft);
-% end
-% 
+% Inpect the result of skull stripping
+spm_check_registration (par.ana,ss_anat,par.temp_fulldir);
+spm_orthviews('Reposition', 64.5, 64.5, 20.0);
+spm_orthviews('Zoom', -inf, 3);
 
+userInput = input('Skull-stripping Alright? (Y/N): ', 's');
+
+% Check the user's input
+if strcmpi(userInput, 'Y')
+    disp('skull stripped ana is now the main ana');
+    % Add your code for the next steps here
+    par.ana=ss_anat;
+    [~,par.anaorig,~]=fileparts(ss_anat);
+    par
+elseif strcmpi(userInput, 'N')
+    disp('Redo the skull stripping');
+    return;  % or add code to handle the exit
+else
+    disp('Invalid input. ');
+    % Handle the case where the input is neither Y nor N
+end
+
+
+save(fullfile(par.work_dir,"par.mat"),"par")
 %% Normalisation Module: Reslicing (EPI2EPI) and Realignment (ANA2EPI)
-%re-select the anatomical file 
-par = parget(subject_name,working_directory,AccuMRNorm_Dir,temp_Dir,temp);
 
 % note: here I am testing the normalisation, hence creating some additional
 % pars to store the partial runs.
-par_partial=par;
-par_partial.runs=par.runs([2,15,16]);
-fMRI_preprocessing_par(par_partial);
-par.partial_runs = par_partial.runs;
 
+fMRI_preprocessing_par(par);
+
+
+% motion_par (par)
 
 
 %% Normalisation Module: Quality Check of the RR process
 
-qcDisplay(par_partial,3,'r');
+qcDisplay(par,3,'r');
 
 
 %% Normalisation Module: Manual Coregistration 
@@ -198,7 +203,7 @@ seg_ana(par.ana,par.temp_dir,par.norm_dir);
 % % re-run segmentation to get skullstripped prob maps
 % fnameana    = strcat('ss',par.anaorig);                                     % specify parameter
 % 
-% seg_ana(par.pathana,fnameana,working_directory,par.folder,par.temp_dir,par.norm_dir);
+% seg_ana(par.pathana,fnameana,subject_directory,par.folder,par.temp_dir,par.norm_dir);
 %% Normalisation Module: DARTEL 
 
 %% - DARTEL Normalisation (Anatomical): 1st Pass
@@ -245,7 +250,7 @@ tvol2nii(par.norm_dir, par.temp_dir, par.temp);
 
 %%
 fnameana = strcat('wrss',par.baseFileNameNoExt,'_ref(',par.temp,')_mreg2d_volume.nii'); 
-seg_ana(par.norm_dir,fnameana,working_directory,par.folder,par.temp_dir,par.norm_dir);
+seg_ana(par.norm_dir,fnameana,subject_directory,par.folder,par.temp_dir,par.norm_dir);
 
 warpedimg   = cellstr(strcat(par.norm_dir,'\rc2',fnameana));
 rimgana     = cellstr(strcat(par.norm_dir,'\r', fnameana));

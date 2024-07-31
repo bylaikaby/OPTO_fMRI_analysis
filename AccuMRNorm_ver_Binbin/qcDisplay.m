@@ -5,7 +5,8 @@ function qcDisplay(par, numSelectedScans,norm_type)
     end
 
     if nargin < 3 
-        norm_type = ''
+        norm_type = '';
+        fprintf('checking unnormalised EPIs, can change the displayed image prefix with the 3rd parameter')
     end
 
 

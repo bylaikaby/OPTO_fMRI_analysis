@@ -11,7 +11,7 @@
 % This function reorients a NIfTI file by updating the sForm matrix and qfactor in the header.
 % It is useful for correcting the orientation of NIfTI files when needed.
 %
-function setNiiOrientation(niiName, sMatrix, qfactor, if_compress)
+function new_setNiiOrientation(niiName, sMatrix, qfactor, if_compress)
 
 % Check if sMatrix and qfactor arguments are provided, otherwise use defaults.
     if nargin < 2 || isempty(sMatrix)
@@ -19,12 +19,14 @@ function setNiiOrientation(niiName, sMatrix, qfactor, if_compress)
         niiHdr = niftiinfo(niiName);
         dims = niiHdr.ImageSize(1:3);
 
-        % Calculate scaling factors for each dimension
-        scaleFactors = [-96/dims(1)/2, 127.6/dims(2)/2, 80/dims(3)/2];
+%         % Calculate scaling factors for each dimension
+%         scaleFactors = [96/dims(1), 96/dims(2), 40/dims(3)];
+% 
+%         % Set default sMatrix with scaling factors and last row [50 50 -10 1]
+%         sMatrix = [diag([scaleFactors,1])];
+        sMatrix =diag([-0.39/1.5,0.38/1.5,0.25,1]);
 
-        % Set default sMatrix with scaling factors and last row [50 50 -10 1]
-        sMatrix = [diag([scaleFactors,1])];
-        sMatrix(4,:) = [25,-25,-10,1];
+        sMatrix(4,:) = [25,-25,0,1];
 
         disp('Using default sMatrix:');
         disp(sMatrix);

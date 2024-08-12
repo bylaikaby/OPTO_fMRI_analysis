@@ -29,7 +29,7 @@ par.work_dir    = fullfile(datapath,par.folder);                            % sp
 cd(par.pathepi)
 par.runs        = dir('sub*.nii');                                             % determined number of func runs 
 par.runs        = par.runs(~startsWith({par.runs.name}, 'sw'));
-par.realigned_runs = dir('rsub*.nii')
+% par.realigned_runs = dir('rsub*.nii')
 cd(par.pathana)
 par.anaorig = uigetfile({ '*.nii'}, 'Select Anatomical File', par.pathana)                                           % directory with original anatomy
 par.ana     = fullfile(par.pathana,par.anaorig);                            % full anatomical file

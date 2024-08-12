@@ -152,7 +152,7 @@ fMRI_preprocessing_par(par);
 
 
 % motion_par (par)
-
+        
 
 %% Normalisation Module: Quality Check of the RR process
 
@@ -165,25 +165,23 @@ qcDisplay(par,3,'r');
 % followup EPI coregistration will require transformation information from
 % it.
 
-% [mancoregvar] = mancoreg(par.temp_fulldir,par.ana);       
+[mancoregvar] = mancoreg(par.temp_fulldir,par.ana);       
                                                                  
 % realign the EPIs 
-% note here par.partial_runs is used instead of par.runs, norm_epi
+% note here par.runs is used instead of par.runs, norm_epi
 % automatically choose to normalise functionals with prefix r, meaning
 % resliced
-norm_epi(par.folder,mancoregvar,par.partial_runs,par.norm_dir);
+norm_epi(par.folder,mancoregvar,par.runs,par.norm_dir);
 
-%%
-qcDisplay(par_partial,3,'r');
+
 
 %% Normalisation Module: DARTEL Prep
 %% - DARTEL Prep 1: get epivox, parameter adaptations
 % check epi vox dimension
-
-inspectEPIInformation (par_partial);
+niftiinfo(fullfile(par.runs(1).folder,par.runs(1).name)).PixelDimensions
 epivox =[0.75,0.72,2];
 
-USE_PARALLEL= false ; % true:  parallelization to process functional scans
+USE_PARALLEL= true ; % true:  parallelization to process functional scans
                      % false: uses usual serial processing
 % Settings for DARTEL transform of functional scans    
 smoothing1  = [0 0 0]; % FWHM: Smoothing for 1st pass
@@ -208,24 +206,35 @@ seg_ana(par.ana,par.temp_dir,par.norm_dir);
 
 %% - DARTEL Normalisation (Anatomical): 1st Pass
 % 5) Use DARTEL algorithm to normalize the anatomical data (dartel_norm_ana).
-%%
-warpedimg   = cellstr(strcat(par.norm_dir,'\rc2ss', par.anaorig));          % warped img. native after warping to templ
-rimgana     = cellstr(strcat(par.norm_dir,'\rss', par.anaorig));            % realigned anatomicals
 
-c3Images    = cellstr(strcat(par.pathana,'\c3ss',par.anaorig));             % c3-segmented img (WM)
-c2Images    = cellstr(strcat(par.pathana,'\c2ss',par.anaorig));             % c2-segmented img (GM)
-c1Images    = cellstr(strcat(par.pathana,'\c1ss',par.anaorig));             % c1-segmented img (CSF)
+warpedimg   = cellstr(strcat(par.norm_dir,'\rc2', par.anaorig));          % warped img. native after warping to templ
+rimgana     = cellstr(strcat(par.norm_dir,'\r', par.anaorig));            % realigned anatomicals
+
+c3Images    = cellstr(strcat(par.pathana,'\c3',par.anaorig));             % c3-segmented img (WM)
+c2Images    = cellstr(strcat(par.pathana,'\c2',par.anaorig));             % c2-segmented img (GM)
+c1Images    = cellstr(strcat(par.pathana,'\c1',par.anaorig));             % c1-segmented img (CSF)
 
 dartel_norm_ana(warpedimg,rimgana,c3Images, c2Images,c1Images);
+%% QC on the first ANA Normalisation
+% Convert cell array to character array for spm_check_registration
+allImages = [warpedimg; rimgana; c3Images; c2Images; c1Images];
+
+filepaths = char(allImages);
+[~, image_names, ~] = cellfun(@fileparts, allImages, 'UniformOutput', false);
+
+% Display all anatomical files using spm_check_registration
+spm_check_registration(filepaths,par.temp_fulldir);
+
+spm_orthviews('Caption', image_names);
 %% - DARTEL Normalisation (Functional): 1st Pass
 cd(par.norm_dir)
-imgtemp     = dir('u_rc2ss*.nii') ;	    		                   % specify deformation file 
+imgtemp     = dir('u_rc2*.nii') ;	    		                   % specify deformation file 
 
 % in the test run we only normalise 3 functional runs, so specify the
-% resliced runs. Note below code we also used par.partial_runs instead of
+% resliced runs. Note below code we also used par.runs instead of
 % par.runs
-for i = 1:numel(par.partial_runs)
-    par.partial_runs(i).name = ['r',par.partial_runs(i).name];
+for i = 1:numel(par.runs)
+    par.runs(i).name = ['r',par.runs(i).name];
 end
 
 % first pass at EPI warping
@@ -233,8 +242,10 @@ switch USE_PARALLEL
     case true  % If we run parallelized mode
         dartel_norm_epi_parallel(par.runs,par.pathepi,imgtemp,epivox,1, bounding_box, smoothing1); 
     case false % If we run regular mode
-        dartel_norm_epi(par.partial_runs,par.pathepi,imgtemp,epivox,1);
+        dartel_norm_epi(par.runs,par.pathepi,imgtemp,epivox,1);
 end     
+%% QC on the first EPI Normalisation
+
 
 %% DARTEL Normalisation: Manual Coregistration, Refinement of Normalization Parameters
 %% part1: Quality check & manual adaptations (mreg2d_gui)
@@ -258,7 +269,9 @@ c3Images    = cellstr(strcat(par.norm_dir,'\c3',fnameana));
 c2Images    = cellstr(strcat(par.norm_dir,'\c2',fnameana));
 c1Images    = cellstr(strcat(par.norm_dir,'\c1',fnameana));
 
-dartel_norm_ana(warpedimg,rimgana,c3Images, c2Images,c1Images);
+dartel_norm_ana(warpedimg,rimgana,c3Images, c2Images,c1Images);allImages = [warpedimg; rimgana; c3Images; c2Images; c1Images];
+    
+
 %%
 cd(par.norm_dir)
 imgtemp     = dir('u_rc2wrss*.nii'); 					            % specify deformation file 
@@ -268,5 +281,5 @@ switch USE_PARALLEL
     case true  % If we run parallelized mode
         dartel_norm_epi_parallel(par.runs,par.pathepi,imgtemp,epivox,2, bounding_box, smoothing2); 
     case false % If we run regular mode
-        dartel_norm_epi(par.partial_runs,par.pathepi,imgtemp,epivox,2);
+        dartel_norm_epi(par.runs,par.pathepi,imgtemp,epivox,2);
 end

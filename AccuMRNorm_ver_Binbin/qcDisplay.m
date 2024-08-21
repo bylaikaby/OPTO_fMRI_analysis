@@ -6,7 +6,6 @@ function qcDisplay(par, numSelectedScans,norm_type)
 
     if nargin < 3 
         norm_type = '';
-        fprintf('checking unnormalised EPIs, can change the displayed image prefix with the 3rd parameter')
     end
 
 
@@ -20,13 +19,18 @@ function qcDisplay(par, numSelectedScans,norm_type)
     % Populate the cell array with the selected paths
     for i = 1:numSelectedScans
         selectedFuncPaths{i} = fullfile(par.runs(selectedIndices(i)).folder, [norm_type,par.runs(selectedIndices(i)).name]);
-        selectedFuncPaths{i} = strcat(selectedFuncPaths{i}, ',1');
+        selectedFuncPaths{i} = strcat(selectedFuncPaths{i}, ',1')
     end
-
+    
+%     based on the prefix input, determine the display
+    if norm_type == 'wr';
+        ana = fullfile(par.norm_dir,['wr',par.anaorig]);
+    else 
+        ana=par.ana;
+    end
     % Display the selected functional scans with SPM
-    imgs = char(par.ana, char(selectedFuncPaths(:)), char(par.temp_fulldir));
+    imgs = char(ana, char(selectedFuncPaths(:)), char(par.temp_fulldir));
     [~, image_names, ~] = fileparts(cellstr(imgs));
-
     spm_check_registration(imgs);
 
     spm_orthviews('contour', 'display', 1, [2:numSelectedScans + 2]);

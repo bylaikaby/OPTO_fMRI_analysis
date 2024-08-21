@@ -24,7 +24,7 @@ function new_setNiiOrientation(niiName, sMatrix, qfactor, if_compress)
 % 
 %         % Set default sMatrix with scaling factors and last row [50 50 -10 1]
 %         sMatrix = [diag([scaleFactors,1])];
-        sMatrix =diag([-0.39/1.5,0.38/1.5,0.25,1]);
+        sMatrix =diag([-0.25,0.25,0.25,1]);
 
         sMatrix(4,:) = [25,-25,0,1];
 

@@ -20,9 +20,9 @@ matlabbatch{1}.spm.tools.oldseg.output.CSF      = [1 1 1];
 matlabbatch{1}.spm.tools.oldseg.output.biascor  = 1;
 matlabbatch{1}.spm.tools.oldseg.output.cleanup  = 1;
 matlabbatch{1}.spm.tools.oldseg.opts.tpm        = {
-    strcat(tempdir, '/TPM.nii,1')                                          %GM
-    strcat(tempdir, '/TPM.nii,2')                                          %WM
-    strcat(tempdir, '/TPM.nii,3')                                          %CSF
+    strcat(tempdir, '/CMT_csf.nii')                                          
+    strcat(tempdir, '/CMT_gm.nii')                                          
+    strcat(tempdir, '/CMT_wm.nii')                                        
     };
 matlabbatch{1}.spm.tools.oldseg.opts.ngaus      = [2 2 2 4];
 matlabbatch{1}.spm.tools.oldseg.opts.regtype    = 'rigid'; % cleans up warp and more translation

@@ -39,8 +39,8 @@ AccuMRNorm_Dir = 'D:\OPTO_fMRI_CM\code';
 % automatic add_path to include the dependent toolboxes
 addpath(genpath(AccuMRNorm_Dir));
 
-temp_Dir = 'D:\OPTO_fMRI_CM\Templates\NMT_v2.0'; % Folder of the template
-temp = 'NMT_v2.0_sym_SS'; % Default template file name
+temp_Dir = 'D:\OPTO_fMRI_CM\Templates\CMT'; % Folder of the template
+temp = 'CMT'; % Default template file name
 
 % % Adding additional dependencies
 % folders = {'exppar','mri','plt','utils','linux','nifti_tools-master','paravision','stat'};
@@ -81,7 +81,6 @@ par = parget(subject_name,subject_directory,AccuMRNorm_Dir,temp_Dir,temp);
 
 
  
-% save 'par' for ease of reloading
 
 
 %% Re-Orientation
@@ -141,6 +140,7 @@ else
     % Handle the case where the input is neither Y nor N
 end
 
+% save 'par' for ease of reloading
 
 save(fullfile(par.work_dir,"par.mat"),"par")
 %% Normalisation Module: Reslicing (EPI2EPI) and Realignment (ANA2EPI)
@@ -185,6 +185,7 @@ USE_PARALLEL= true ; % true:  parallelization to process functional scans
                      % false: uses usual serial processing
 % Settings for DARTEL transform of functional scans    
 smoothing1  = [0 0 0]; % FWHM: Smoothing for 1st pass
+
 smoothing2  = [2 2 2]; % FWHM: Smoothing for 2nd pass
 bounding_box = [-50 -38.7 -5.9; 50 64.3 46.1];          
 
@@ -228,14 +229,7 @@ spm_check_registration(filepaths,par.temp_fulldir);
 spm_orthviews('Caption', image_names);
 %% - DARTEL Normalisation (Functional): 1st Pass
 cd(par.norm_dir)
-imgtemp     = dir('u_rc2*.nii') ;	    		                   % specify deformation file 
-
-% in the test run we only normalise 3 functional runs, so specify the
-% resliced runs. Note below code we also used par.runs instead of
-% par.runs
-for i = 1:numel(par.runs)
-    par.runs(i).name = ['r',par.runs(i).name];
-end
+imgtemp     = dir (['u_rc2',par.baseFileNameNoExt,'_Template.nii']); % specify deformation file 
 
 % first pass at EPI warping
 switch USE_PARALLEL
@@ -243,9 +237,9 @@ switch USE_PARALLEL
         dartel_norm_epi_parallel(par.runs,par.pathepi,imgtemp,epivox,1, bounding_box, smoothing1); 
     case false % If we run regular mode
         dartel_norm_epi(par.runs,par.pathepi,imgtemp,epivox,1);
-end     
+end         
 %% QC on the first EPI Normalisation
-
+qcDisplay(par,3,'wr');
 
 %% DARTEL Normalisation: Manual Coregistration, Refinement of Normalization Parameters
 %% part1: Quality check & manual adaptations (mreg2d_gui)

@@ -39,8 +39,8 @@ AccuMRNorm_Dir = 'D:\OPTO_fMRI_CM\code';
 % automatic add_path to include the dependent toolboxes
 addpath(genpath(AccuMRNorm_Dir));
 
-temp_Dir = 'D:\OPTO_fMRI_CM\Templates\NMT_v2.0'; % Folder of the template
-temp = 'NMT_v2.0_sym_SS'; % Default template file name
+temp_Dir = 'D:\OPTO_fMRI_CM\Templates\CMT'; % Folder of the template
+temp = 'CMT'; % Default template file name
 
 % % Adding additional dependencies
 % folders = {'exppar','mri','plt','utils','linux','nifti_tools-master','paravision','stat'};
@@ -185,6 +185,7 @@ USE_PARALLEL= true ; % true:  parallelization to process functional scans
                      % false: uses usual serial processing
 % Settings for DARTEL transform of functional scans    
 smoothing1  = [0 0 0]; % FWHM: Smoothing for 1st pass
+
 smoothing2  = [2 2 2]; % FWHM: Smoothing for 2nd pass
 bounding_box = [-50 -38.7 -5.9; 50 64.3 46.1];          
 
@@ -243,14 +244,14 @@ switch USE_PARALLEL
         dartel_norm_epi_parallel(par.runs,par.pathepi,imgtemp,epivox,1, bounding_box, smoothing1); 
     case false % If we run regular mode
         dartel_norm_epi(par.runs,par.pathepi,imgtemp,epivox,1);
-end     
+end         
 %% QC on the first EPI Normalisation
 
 
 %% DARTEL Normalisation: Manual Coregistration, Refinement of Normalization Parameters
 %% part1: Quality check & manual adaptations (mreg2d_gui)
 
-fnameana    = strcat('wrss',par.anaorig);                                   % specify parameter
+fnameana    = strcat('wr',par.anaorig);                                   % specify parameter
 ana         = fullfile(par.norm_dir,fnameana);                              % specify parameter
 %GUI for manual adaptations
 mreg2d_gui(par.temp_fulldir,ana);        

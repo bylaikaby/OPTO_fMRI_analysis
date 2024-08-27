@@ -10,7 +10,6 @@ function dartel_norm_epi(runs,pathepi,imgtemp,epivox,step)
 tic
 imgtemp = fullfile(imgtemp.folder, imgtemp.name);
 cd(pathepi);
-
 if step == 1
     imgepi = dir('r*.nii');
     for i = 1:length(imgepi)

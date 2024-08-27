@@ -1,4 +1,4 @@
-function dartel_norm_epi_parallel(runs,pathepi,imgtemp,epivox,step, bb, smoothing)
+function dartel_norm_epi_parallel(runs,pathepi,temp_dir,imgtemp,epivox,step, bb, smoothing)
 %% Inputs
 % runs      = number of runs in this experiment
 % pathepi   = path to functional scans

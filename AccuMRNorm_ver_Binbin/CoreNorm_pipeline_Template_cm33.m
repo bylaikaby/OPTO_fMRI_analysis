@@ -80,7 +80,6 @@ subject_directory = pwd;
 par = parget(subject_name,subject_directory,AccuMRNorm_Dir,temp_Dir,temp);
 
 
- [IDs.OPTO.Combined,IDs.MSTIM.Combined,67, 68, 69, 70, 71]
 
 
 %% Re-Orientation

@@ -80,7 +80,6 @@ subject_directory = pwd;
 par = parget(subject_name,subject_directory,AccuMRNorm_Dir,temp_Dir,temp);
 
 
- [IDs.OPTO.Combined,IDs.MSTIM.Combined,67, 68, 69, 70, 71]
 
 
 %% Re-Orientation
@@ -115,7 +114,7 @@ qcDisplay(par,4);
 % Use bet4animal (brain extraction tool of FSL) to skullstripp the anatomical image chosen
 % 0.2 is the threshold to use for bet
 
-run_bet4animal_macaque('/home/bb/fsl',par.ana,par.pathana,0.10);
+run_bet4animal_macaque('/home/bb/fsl',par.ana,par.pathana,0.2);
 
 
 % Inpect the result of skull stripping
@@ -172,8 +171,9 @@ qcDisplay(par,3,'r');
 % automatically choose to normalise functionals with prefix r, meaning
 % resliced
 norm_epi(par.folder,mancoregvar,par.runs,par.norm_dir);
+%% 
 
-
+check_and_replace_func_nans(par)
 
 %% Normalisation Module: DARTEL Prep
 %% - DARTEL Prep 1: get epivox, parameter adaptations
